@@ -27,6 +27,10 @@ jobs:
         git fetch debian
         git checkout debian/$(git describe --tags | tr -d 'v')-1 -- debian
         sudo apt build-dep iproute2
+    - name: Fix packaging for new binaries
+      run: |
+        grep -qxF "sbin/dpll sbin/" debian/iproute2.install || echo "sbin/dpll sbin/" >> debian/iproute2.install
+        grep -qxF "sbin/netshaper sbin/" debian/iproute2.install || echo "sbin/netshaper sbin/" >> debian/iproute2.install
     - name: Build deb
       run: dpkg-buildpackage -b -rfakeroot -us -uc -d
     - name: Extract branch name
