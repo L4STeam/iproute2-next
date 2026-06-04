@@ -10,7 +10,7 @@ jobs:
     - name: Add description
       run: |
         git tag v6.9.0
-    - name: Download apt-get deiendencies
+    - name: Download apt-get dependencies
       env:
           DEBIAN_FRONTEND: noninteractive
       run: |
@@ -44,9 +44,10 @@ jobs:
         name: iproute2-l4s
         path: iproute2-l4s
     - name: Release tip build
-      uses: pyTooling/Actions/releaser@main
+      uses: softprops/action-gh-release@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ steps.extract_branch.outputs.branch }}-build
+        tag_name: ${{ steps.extract_branch.outputs.branch }}-build
+        prerelease: true
         files: |
           iproute2-l4s.zip
